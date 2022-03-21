@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid mt-3" style="display: flex;">
+		<div class="col-2">
+			<p>
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, asperiores qui ad voluptatum impedit ipsa, eos totam iusto molestiae pariatur quibusdam neque quasi doloribus iste id, ratione praesentium libero delectus!
+			</p>
+		</div>
+		<div class="row-md-8">
+			<div class="container-fluid">
+				{% for p in post %}
+					<div class="col mb-3">
+						{% include "post/_post_card.html.twig" %}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="col-2">
+			<p>
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique quis ex molestias in quo voluptatum dolor facilis et doloremque. Perferendis laudantium earum praesentium odit doloremque. Itaque consequuntur id error tempora?
+			</p>
+		</div>
+	</div>
+	<hr>
+	<h2>Un service irréprochable</h2>
+	<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae maxime consectetur libero doloribus, dolorum repellat.</p>
+
+{% endblock %}
