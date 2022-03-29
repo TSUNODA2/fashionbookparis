@@ -4,6 +4,7 @@
         "@symfony/stimulus-bridge": "^3.0.0",
         "@symfony/webpack-encore": "^1.7.0",
         "core-js": "^3.0.0",
+        "prettier-plugin-twig-melody": "^0.4.6",
         "regenerator-runtime": "^0.13.2",
         "stylelint": "^14.6.1",
         "stylelint-config-prettier": "^9.0.3",
