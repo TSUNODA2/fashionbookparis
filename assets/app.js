@@ -9,6 +9,7 @@
 import './styles/app.css';
 import './styles/reset.css';
 import './styles/footer.css';
+import './styles/signupin.css';
 
 
 // start the Stimulus application
