@@ -1,0 +1,24 @@
+footer {
+  background-color: rgb(1 1 1 / 85%);
+  color: white;
+  font-size: 18px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  margin-top: auto;
+  column-gap: 40px;
+  padding: 50px;
+}
+
+li {
+  list-style-type: none;
+}
+
+footer a {
+  text-decoration: none;
+  color: white;
+}
+
+footer a:hover {
+  color: black;
+}

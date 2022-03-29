@@ -32,3 +32,9 @@ Default database behaviour:
 -installed easyadmin to handle back office
 
 -installed twig extra bundle and twig string extra to handle string manipulation
+
+-installed liipimaginebundle to use optimised assets
+
+## Step
+
+-create home controller and install roboto 400 police via webpack
