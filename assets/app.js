@@ -7,7 +7,6 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
-import './styles/reset.css';
 import './styles/footer.css';
 import './styles/signupin.css';
 import './styles/navbar.css';
