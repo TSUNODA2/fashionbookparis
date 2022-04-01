@@ -18,18 +18,18 @@
     </div>
     <div class="list-posts">
       {% for post in posts %}
-        <div class="post">
+        <article class="post">
           <p>
             Ecrit par jane Doe le {{ post.createdAt|date }}
           </p>
           <img src="{{ asset('images/posts/' ~ post.image) }}" alt="" />
-          <p>
+          <h2>
             {{ post.title }}
-          </p>
+          </h2>
           <p>
             {{ post.description }}
           </p>
-        </div>
+        </article>
       {% endfor %}
     </div>
   </section>

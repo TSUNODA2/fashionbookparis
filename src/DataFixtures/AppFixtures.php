@@ -13,12 +13,19 @@ class AppFixtures extends Fixture
     {
         $faker = Faker\Factory::create('fr_FR');
 
-        for ($i = 0; $i <= 16; $i++)
-        {
+        for ($i = 0; $i <= 16; $i++) {
             $post = new Post();
             $post->setTitle($faker->sentence());
             $post->setDescription($faker->paragraphs(3, true));
-            $post->setImage($faker->image('public/images/posts', 1280, 720, 'animals', false));
+            if ($i % 3 == 0) {
+                $post->setImage('cat-gfa1e2c1f5_1280.jpg');
+            }
+            if ($i % 3 == 1) {
+                $post->setImage('alone-g008653300_1280.jpg');
+            }
+            if ($i % 3 == 2) {
+                $post->setImage('cheers-gce7dc51c4_1280.jpg');
+            }
             $manager->persist($post);
         }
         // $product = new Product();

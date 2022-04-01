@@ -2,6 +2,8 @@
   background-color: #606060;
   font-size: 18px;
   padding: 20px 40px;
+  position:sticky;
+  top:0;
 }
 
 .navbar-header nav {
