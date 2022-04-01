@@ -1,21 +1,29 @@
 <header class="navbar-header">
-	<nav>
-		<div class="brand-name">
-			<span>FASHIONBOOK</span>
-			<span>PARIS</span>
-		</div>
-		<div>
-			<p class="nav-page-title">Accueil</p>
-		</div>
-		<div class="nav-user-action">
-			<form class="nav-form" action="">
-				<img src="{{asset('images/navbar/search-2.png')}}" alt="search icon">
-				<input type="search" name="friend-search-input" id="friend-search-input" placeholder="Rechercher un ami...">
-			</form>
-			<div class="nav-user-param">
-				<p class="nav-user">thomas</p>
-				<img src="{{asset('images/navbar/Vector.png')}}" alt="cog icon">
-			</div>
-		</div>
-	</nav>
+  <nav>
+    <div class="brand-name">
+      <span>FASHIONBOOK</span>
+      <span>PARIS</span>
+    </div>
+    <div>
+      <p class="nav-page-title">
+        Accueil
+      </p>
+    </div>
+    <div class="nav-user-action">
+      <form class="nav-form" action="">
+        <img src="{{ asset('images/navbar/search-2.png') }}"
+          alt="search icon" />
+        <input type="search"
+          name="friend-search-input"
+          id="friend-search-input"
+          placeholder="Rechercher un ami..." />
+      </form>
+      <div class="nav-user-param">
+        <p class="nav-user">
+          thomas
+        </p>
+        <img src="{{ asset('icons/navbar/Vector.png') }}" alt="cog icon" />
+      </div>
+    </div>
+  </nav>
 </header>

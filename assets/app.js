@@ -10,6 +10,7 @@ import './styles/app.css';
 import './styles/footer.css';
 import './styles/signupin.css';
 import './styles/navbar.css';
+import './styles/homepage.css';
 
 
 // start the Stimulus application

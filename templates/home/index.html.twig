@@ -5,15 +5,35 @@
 {% endblock %}
 
 {% block body %}
-  <main>
-    <h1>
-      Je suis la home page
-    </h1>
-    <section>
-    Ajouter article
-    </section>
-    <section>
+  <section class="announces"></section>
+  <section class="sidebar">
+    sidebar
+  </section>
+  <section class="posts">
+    <div class="new-post">
+      <a href="#">
+        <span>+</span>
+        <span>Publier un article</span>
+      </a>
+    </div>
+    <div class="list-posts">
+      {% for post in posts %}
+        <div class="post">
+          <p>
+            Ecrit par jane Doe le {{ post.createdAt|date }}
+          </p>
+          <img src="{{ asset('images/posts/' ~ post.image) }}" alt="" />
+          <p>
+            {{ post.title }}
+          </p>
+          <p>
+            {{ post.description }}
+          </p>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+  <section class="ads">
     Les articles
-    </section>
-  </main>
+  </section>
 {% endblock %}
