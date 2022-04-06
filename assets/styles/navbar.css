@@ -2,8 +2,9 @@
   background-color: #606060;
   font-size: 18px;
   padding: 20px 40px;
-  position:sticky;
-  top:0;
+  position: sticky;
+  top: 0;
+  color: white;
 }
 
 .navbar-header nav {
@@ -33,6 +34,7 @@
 .nav-user-param {
   display: flex;
   justify-content: center;
+  align-items: center;
   column-gap: 10px;
 }
 

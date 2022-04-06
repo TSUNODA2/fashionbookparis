@@ -31,9 +31,23 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
-        $posts = $this->postRepo->findAll();
+        $posts = $this->postRepo->findBy(['visible' => true], ['createdAt' => 'DESC']);
         return $this->render('home/index.html.twig', [
             'posts' => $posts
+        ]);
+    }
+
+    /**
+     * @Route("/show/{id}",name="app_post_show",requirements={"id"="\d+"})
+     *
+     * @param integer $id
+     * @return Response
+     */
+    public function show(int $id): Response
+    {
+        $post = $this->postRepo->find($id);
+        return $this->render('home/show.html.twig', [
+            'post' => $post
         ]);
     }
 }

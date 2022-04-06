@@ -4,6 +4,16 @@
   Fashionbook Paris|Page d'accueil
 {% endblock %}
 
+{% block stylesheets %}
+  {{ parent() }}
+  {{ encore_entry_link_tags('homepage') }}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  {{ encore_entry_script_tags('homepage') }}
+{% endblock %}
+
 {% block content %}
   <section class="announces"></section>
   <section class="sidebar">
@@ -11,25 +21,46 @@
   </section>
   <section class="posts">
     <div class="new-post">
-      <a href="#">
-        <span>+</span>
-        <span>Publier un article</span>
-      </a>
+      <span class="new-post-sign">+</span>
+      <span><a class="new-post-link" href="#">Publier un article</a></span>
     </div>
     <div class="list-posts">
       {% for post in posts %}
         <article class="post">
-          <p>
-            Ecrit par jane Doe le {{ post.createdAt|date }}
+          <p class="post-author">
+            <b>jane Doe</b> <span>a publié le {{ post.createdAt|date }}</span>
           </p>
+          <hr />
           <img src="{{ asset('images/posts/' ~ post.image) }}" alt="" />
           <h2>
             {{ post.title }}
           </h2>
-          <p>
-            {{ post.description }}
+          <p class="post-description">
+            {{ post.description|u.truncate(200, '...') }}
+          </p>
+          <p class="post-link">
+            <span>
+              <a class="post-show-link"
+                href="{{
+                path(
+                  'app_post_show',
+                  {
+                    id: post.id
+                  }
+                )
+                }}">
+                Voir +
+              </a>
+            </span>
+            <span>
+              <button>Share</button>
+              <span>count like</span>
+              <i>heart</i>
+              <button>like</button>
+            </span>
           </p>
         </article>
+        <br />
       {% endfor %}
     </div>
   </section>

@@ -5,7 +5,7 @@ footer {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  margin-top: auto;
+  margin-bottom: 0;
   column-gap: 40px;
   padding: 50px;
 }

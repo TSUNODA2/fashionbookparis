@@ -1,11 +1,17 @@
+/* ================ FONTS====================================== */
+
 @font-face {
   font-family: "Roboto Regular";
   src: url("/../fonts/Roboto-Regular.ttf") format(truetype);
 }
 
+/* ==============GLOBAL VARIABLES============================= */
+
 :root {
   --bg-primary: black;
 }
+
+/* ==================RESET CSS================================ */
 
 *,
 *::before,
@@ -14,6 +20,8 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+/* ================GLOBAL SETTINGS ========================== */
 
 body {
   font-family: Roboto, sans-serif;
@@ -36,7 +44,26 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
+  padding: 5px;
+}
+
+.new-post {
+  width: 100%;
+  height: 72px;
+  background-color: #2c2c2c;
+}
+
+.new-post-sign {
+  font-size: 36px;
+  background-color: white;
+  color: black;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.new-post-link {
+  font-size: 18px;
+  color: white;
 }
 
 article {
