@@ -4,35 +4,48 @@ namespace App\Entity;
 
 use App\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
+/**
+ * @Vich\Uploadable
+ */
 class Post
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $title;
+    private string $title;
 
     #[ORM\Column(type: 'text')]
-    private $description;
+    private string $description;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $image;
+    private string $image;
+
+    /**
+     * @Vich\UploadableField(mapping="post_images",fileNameProperty="image")
+     */
+    private ?File $imageFile;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $urlVideo;
+    private string $urlVideo;
 
     #[ORM\Column(type: 'boolean')]
-    private $visible;
+    private bool $visible;
 
     #[ORM\Column(type: 'datetime')]
-    private $createdAt;
+    private \Datetime $createdAt;
 
     #[ORM\Column(type: 'datetime')]
-    private $updatedAt;
+    private \Datetime $updatedAt;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $verified;
 
     public function __construct()
     {
@@ -82,6 +95,20 @@ class Post
         return $this;
     }
 
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+        if (null !== $imageFile)
+        {
+            $this->setUpdatedAt(new \DateTime('now'));
+        }
+    }
+
     public function getUrlVideo(): ?string
     {
         return $this->urlVideo;
@@ -126,6 +153,18 @@ class Post
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getVerified(): ?bool
+    {
+        return $this->verified;
+    }
+
+    public function setVerified(bool $verified): self
+    {
+        $this->verified = $verified;
 
         return $this;
     }

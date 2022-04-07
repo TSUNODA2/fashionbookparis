@@ -31,7 +31,7 @@
             <b>jane Doe</b> <span>a publié le {{ post.createdAt|date }}</span>
           </p>
           <hr />
-          <img src="{{ asset('images/posts/' ~ post.image) }}" alt="" />
+          <img src="{{ vich_uploader_asset(post) }}" alt="{{ post.title }}" />
           <h2>
             {{ post.title }}
           </h2>
