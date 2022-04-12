@@ -18,10 +18,17 @@
           placeholder="Rechercher un ami..." />
       </form>
       <div class="nav-user-param">
-        <p class="nav-user">
-          thomas
-        </p>
-        <img src="{{ asset('icons/navbar/Vector.png') }}" alt="cog icon" />
+        {% if is_granted('ROLE_USER') %}
+          <p class="nav-user">
+            thomas
+          </p>
+          <img src="{{ asset('icons/navbar/Vector.png') }}" alt="cog icon" />
+        {% else %}
+          <img class="user-icon"
+            src="{{ asset('icons/navbar/icons8-user-32.png') }}"
+            alt="user icons8" />
+          <a class="connexion-link" href="{{ path('login') }}">Connexion</a>
+        {% endif %}
       </div>
     </div>
   </nav>

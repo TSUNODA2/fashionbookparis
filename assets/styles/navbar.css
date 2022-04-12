@@ -64,3 +64,19 @@
   border-radius: 5px;
   padding-left: 22px;
 }
+
+.user-icon{
+  width:32px;
+  height:32px;
+  color:white;
+}
+
+.connexion-link{
+  color:white;
+  text-decoration: none;
+}
+
+.connexion-link:hover{
+  color:lightgray;
+  text-decoration: underline white;
+}
