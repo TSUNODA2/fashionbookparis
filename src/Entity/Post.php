@@ -24,14 +24,16 @@ class Post
     private string $title;
 
     #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank(
+        message: 'Le contenu de l\'article ne doit pas être vide'
+    )]
     private string $description;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private string|null $image;
 
-    /**
-     * @Vich\UploadableField(mapping="post_images",fileNameProperty="image")
-     */
+
+    #[Vich\UploadableField(mapping: "post_images", fileNameProperty: "image")]
     #[Assert\Image(
         corruptedMessage: 'Le fichier image est corrompu',
         mimeTypesMessage: 'Ce fichier n\'est pas une image valide',
@@ -114,7 +116,8 @@ class Post
     public function setImageFile(?File $imageFile = null): void
     {
         $this->imageFile = $imageFile;
-        if (null !== $imageFile) {
+        if (null !== $imageFile)
+        {
             $this->setUpdatedAt(new \DateTime('now'));
         }
     }
