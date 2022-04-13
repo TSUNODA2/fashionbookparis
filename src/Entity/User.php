@@ -41,6 +41,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $partnership;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $category;
+
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime('now'));
+        $this->setVerified(false);
+        $this->setPartnership(false);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -167,6 +177,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPartnership(bool $partnership): self
     {
         $this->partnership = $partnership;
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(string $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

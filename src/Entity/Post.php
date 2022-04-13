@@ -6,11 +6,10 @@ use App\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
-/**
- * @Vich\Uploadable
- */
+#[Vich\Uploadable]
 class Post
 {
     #[ORM\Id]
@@ -19,21 +18,32 @@ class Post
     private int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(
+        message: 'Le titre de l\'article ne doit pas être vide'
+    )]
     private string $title;
 
     #[ORM\Column(type: 'text')]
     private string $description;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private string $image;
+    private string|null $image;
 
     /**
      * @Vich\UploadableField(mapping="post_images",fileNameProperty="image")
      */
-    private ?File $imageFile;
+    #[Assert\Image(
+        corruptedMessage: 'Le fichier image est corrompu',
+        mimeTypesMessage: 'Ce fichier n\'est pas une image valide',
+        sizeNotDetectedMessage: 'La taille de l\'image n\'a pas pu être détectée'
+    )]
+    private File|null $imageFile;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private string $urlVideo;
+    #[Assert\Url(
+        message: 'L\'url {{value}} n\'est pas une url valide'
+    )]
+    private string|null $urlVideo;
 
     #[ORM\Column(type: 'boolean')]
     private bool $visible;
@@ -52,6 +62,7 @@ class Post
         $this->setVisible(true);
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
+        $this->setVerified(true);
     }
 
     public function getId(): ?int
@@ -103,8 +114,7 @@ class Post
     public function setImageFile(?File $imageFile = null): void
     {
         $this->imageFile = $imageFile;
-        if (null !== $imageFile)
-        {
+        if (null !== $imageFile) {
             $this->setUpdatedAt(new \DateTime('now'));
         }
     }
@@ -138,7 +148,7 @@ class Post
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -150,7 +160,7 @@ class Post
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
