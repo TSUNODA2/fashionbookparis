@@ -1,0 +1,73 @@
+
+{% block body %}
+
+{% include "home/profil.html.twig" %}
+
+<style>
+    .block-container{
+        width: 60%;
+        margin-left: 350px;
+        margin: auto; 
+        margin-top: 40px;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .article{
+        display: flex;
+        margin-top: 20px;
+        border-radius: 10px;
+        box-shadow: 5px 2px 2px 2px rgb(206, 201, 201);
+        padding: 20px;
+        background-color: rgb(246, 250, 250);
+    }
+
+    .content-fb{
+        margin: auto;
+        padding: 20px;
+    }
+
+    .metadata{
+        display: flex;
+        align-items: flex-end;
+    }
+</style>
+
+<div class="block-container">
+    <div class="article">
+        <img src="https://via.placeholder.com/150" alt="">
+        <div class="content-fb">
+            <p><span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil eos alias consequatur in commodi itaque, doloremque velit, voluptate qui, voluptatem eaque temporibus voluptas ipsam porro officia iure rem repudiandae. Tempore.</span></p>
+            <div class="metadata">13 avril 2022</div>
+        </div>
+    </div>
+    </article>
+<div class="article">
+    <img src="https://via.placeholder.com/150" alt="">
+    <div class="content-fb">
+        <p><span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil eos alias consequatur in commodi itaque, doloremque velit, voluptate qui, voluptatem eaque temporibus voluptas ipsam porro officia iure rem repudiandae. Tempore.</span></p>
+        <div class="metadata">13 avril 2022</div>
+    </div>
+</div>
+</article>
+<div class="article">
+    <img src="https://via.placeholder.com/150" alt="">
+    <div class="content-fb">
+        <p><span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil eos alias consequatur in commodi itaque, doloremque velit, voluptate qui, voluptatem eaque temporibus voluptas ipsam porro officia iure rem repudiandae. Tempore.</span></p>
+        <div class="metadata">13 avril 2022</div>
+    </div>
+</div>
+</article>
+<div class="article">
+    <img src="https://via.placeholder.com/150" alt="">
+    <div class="content-fb">
+        <p><span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil eos alias consequatur in commodi itaque, doloremque velit, voluptate qui, voluptatem eaque temporibus voluptas ipsam porro officia iure rem repudiandae. Tempore.</span></p>
+        <div class="metadata">13 avril 2022</div>
+    </div>
+</div>
+</article>
+</div>
+
+
+{% endblock %}
