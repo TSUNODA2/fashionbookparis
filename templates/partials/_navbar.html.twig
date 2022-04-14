@@ -20,7 +20,7 @@
       <div class="nav-user-param">
         {% if is_granted('ROLE_USER') %}
           <p class="nav-user">
-            thomas
+            {{ app.user.name }}
           </p>
           <img src="{{ asset('icons/navbar/Vector.png') }}" alt="cog icon" />
         {% else %}
