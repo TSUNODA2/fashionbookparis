@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+    {% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/market.css') }}">
+    {% endblock %}
+
+
+{% block body %}
+
+    {% include "partials/_marketnav.html.twig" %}
+
+<div class="marketmain">    
+    <div class="leftboard">
+        <button class="btnMenu"><a href="#" class="btnFont">Vendre un article</a></button>
+        <button class="btnMenu"><a href="#" class="btnFont">Parcourir le marché</a></button>
+        <button class="btnMenu"><a href="#" class="btnFont">Mes achats</a></button>
+        <button class="btnMenu"><a href="#" class="btnFont">Mes ventes</a></button>
+    </div>
+    {% block contents %}
+    
+    
+    {% endblock %}   
+</div>    
+{% endblock %}
