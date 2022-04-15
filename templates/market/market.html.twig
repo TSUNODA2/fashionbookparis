@@ -5,13 +5,15 @@
 {% block contents %}
    
       <div class="midboard">
+      <p>{{ProductCategory.NameCategory}}</p>
+      <hr>
         {% for p in products %}
-            
+                
                 <div class="card">
                     <div class="insideCard">
                         <img src="{{ p.ProductPicture }}" class="pictureStyle" alt="">
                         <div class="">
-                        
+
                             <h4 class="">{{p.ProductNamet}} ({{p.ProductPrice / 100}} &euro;) </h4>
 
                             <span class="">{{ p.ProductCategory.NameCategory}}</span>

@@ -1,10 +1,11 @@
 body{
     overflow-y: hidden;
 }
+/* Home Market */
+
 .marketmain{
    display: flex;
-    background-color: lightgray;
-    
+    background-color: lightgray;   
 }
 .leftboard{
     display: flex;
@@ -12,9 +13,7 @@ body{
     align-items: center;
     width:15%;
     margin-top: 1%;
-    border-right: 2px black;
-     
-    
+    border-right: 2px black;   
 }
 .midboard{
     flex-direction: row;
@@ -51,3 +50,5 @@ body{
     text-decoration: none;
     color: black;
 }
+
+/* End Home Market */
