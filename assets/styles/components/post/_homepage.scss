@@ -2,7 +2,6 @@
   width: min(100%, 768px);
   display: flex;
   flex-direction: column;
-
   align-items: center;
   padding: 10px;
   row-gap: 10px;
@@ -84,4 +83,14 @@ article img {
 .post-show-link:hover {
   color: rgb(0 102 125/80%);
   text-decoration: underline #00667c;
+}
+
+.heart-icon{
+  width:22px;
+  height:auto;
+}
+
+.post-like{
+  background-color:transparent;
+  color:black;
 }

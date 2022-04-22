@@ -116,8 +116,7 @@ class Post
     public function setImageFile(?File $imageFile = null): void
     {
         $this->imageFile = $imageFile;
-        if (null !== $imageFile)
-        {
+        if (null !== $imageFile) {
             $this->setUpdatedAt(new \DateTime('now'));
         }
     }
