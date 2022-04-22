@@ -4,18 +4,8 @@
   FashionBookParis | Publication show
 {% endblock %}
 
-{% block stylesheets %}
-  {{ parent() }}
-  {{ encore_entry_link_tags('post_show') }}
-{% endblock %}
-
-{% block javascripts %}
-  {{ parent() }}
-  {{ encore_entry_script_tags('post_show') }}
-{% endblock %}
-
 {% block content %}
-  <article>
+  <article class="post-show">
     <div class="post-author">
       <span><b>jane doe</b></span>
       <span>

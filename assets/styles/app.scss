@@ -23,8 +23,10 @@ body {
 }
 
 #root {
-  max-width: 100vw;
-  min-height: 100vh;
+  width:100%;
+  height:100%;
+  max-width: 100%;
+  min-height: 100%;
 }
 
 main {
@@ -34,3 +36,12 @@ main {
   align-items: center;
   background-color: lightgray;
 }
+
+@import './layout/footer';
+@import './layout/navbar';
+@import './layout/usersign';
+
+@import './components/post/homepage';
+@import './components/post/postshow';
+
+@import './components/sign/login';
