@@ -10,15 +10,18 @@
     sidebar
   </section>
   <section class="posts">
-    <div class="new-post">
-      <span class="new-post-sign">+</span>
-      <span><a class="new-post-link" href="#">Publier un article</a></span>
-    </div>
+    {% if is_granted('ROLE_USER') %}
+      <div class="new-post">
+        <span class="new-post-sign">+</span>
+        <span><a class="new-post-link" href="#">Publier un article</a></span>
+      </div>
+    {% endif %}
     <div class="list-posts">
       {% for post in posts %}
         <article class="post">
           <p class="post-author">
-            <b>jane Doe</b> <span>a publié le {{ post.createdAt|date }}</span>
+            <b>{{ [post.author.name, post.author.surname]|join(' ')|title }}</b>
+            <span>a publié le {{ post.createdAt|date }}</span>
           </p>
           <hr />
           <img src="{{ vich_uploader_asset(post) }}" alt="{{ post.title }}" />
@@ -28,33 +31,39 @@
           <p class="post-description">
             {{ post.description|u.truncate(200, '...') }}
           </p>
-          <p class="post-link">
-            <span>
-              <a class="post-show-link"
-                href="{{
-                path(
-                  'app_post_show',
-                  {
-                    id: post.id
-                  }
-                )
-                }}">
-                Voir +
-              </a>
-            </span>
-            <span>
-              <button>Partager</button>
-              <span>0</span>
-              <i>
-                <img class="heart-icon"
-                  src="{{ asset('icons/post/icons8-heart-30.png') }}"
-                  alt="" />
-              </i>
-              <form>
-                <input class="post-like" type="submit" value="j'aime" />
-              </form>
-            </span>
-          </p>
+          <div class="post-link">
+            <ul>
+              <li>
+                <a class="post-show-link"
+                  href="{{
+                  path(
+                    'app_post_show',
+                    {
+                      id: post.id
+                    }
+                  )
+                  }}">
+                  Voir +
+                </a>
+              </li>
+            </ul>
+            <ul class="post-social-links">
+              <li><button>Partager</button></li>
+              <li>0</li>
+              <li>
+                <i>
+                  <img class="heart-icon"
+                    src="{{ asset('icons/post/icons8-heart-30.png') }}"
+                    alt="" />
+                </i>
+              </li>
+              <li>
+                <form>
+                  <input class="post-like" type="submit" value="j'aime" />
+                </form>
+              </li>
+            </ul>
+          </div>
         </article>
         <br />
       {% endfor %}
