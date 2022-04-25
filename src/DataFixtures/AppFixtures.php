@@ -42,7 +42,8 @@ class AppFixtures extends Fixture
                     ->setProductPrice($faker->price(4000, 20000))
                     ->setProductPicture($faker->imageUrl(100, 100))
                     ->setProductSlug(strtolower($this->slugger->slug($product->getProductNamet())))
-                    ->setProductCategory($category);
+                    ->setProductCategory($category)
+                    ->setCreatedAt(new \DateTimeImmutable());
 
                 $manager->persist($product);
             }
