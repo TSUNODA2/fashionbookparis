@@ -13,7 +13,11 @@
     {% if is_granted('ROLE_USER') %}
       <div class="new-post">
         <span class="new-post-sign">+</span>
-        <span><a class="new-post-link" href="#">Publier un article</a></span>
+        <span>
+          <a class="new-post-link" href="{{ path('app_new_publication') }}">
+            Publier un article
+          </a>
+        </span>
       </div>
     {% endif %}
     <div class="list-posts">

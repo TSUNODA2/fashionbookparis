@@ -6,7 +6,13 @@
 
 {% block content %}
   <section class="new-publication">
-    {{ form_start(formPost) }}
+    <h2>
+      Publier un article
+    </h2>
+    <h2>
+      {{ [app.user.name, app.user.surname]|join(' ')|title }}
+    </h2>
+    {{ form_start(formPost,{'attr':{'class':'new-publication-form'}}) }}
     {{ form_end(formPost) }}
   </section>
 {% endblock %}

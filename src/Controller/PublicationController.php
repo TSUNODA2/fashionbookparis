@@ -49,8 +49,8 @@ class PublicationController extends AbstractController
 
             return $this->redirectToRoute('app_my_publications');
         }
-        return $this->render('publication/new.html.twig', [
-            'formPost' => $form->createView()
+        return $this->renderForm('publication/new.html.twig', [
+            'formPost' => $form
         ]);
     }
 }
