@@ -1,0 +1,12 @@
+{% extends 'layout/site.html.twig' %}
+
+{% block title %}
+  FashionBook|Nouvelle publication
+{% endblock %}
+
+{% block content %}
+  <section class="new-publication">
+    {{ form_start(formPost) }}
+    {{ form_end(formPost) }}
+  </section>
+{% endblock %}

@@ -32,7 +32,7 @@ class Post
     private string $description;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private string|null $image;
+    private string|null $image = null;
 
 
     #[Vich\UploadableField(mapping: "post_images", fileNameProperty: "image")]
@@ -41,7 +41,7 @@ class Post
         mimeTypesMessage: 'Ce fichier n\'est pas une image valide',
         sizeNotDetectedMessage: 'La taille de l\'image n\'a pas pu être détectée'
     )]
-    private File|null $imageFile;
+    private File|null $imageFile = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Assert\Url(
@@ -126,7 +126,8 @@ class Post
     public function setImageFile(?File $imageFile = null): void
     {
         $this->imageFile = $imageFile;
-        if (null !== $imageFile) {
+        if (null !== $imageFile)
+        {
             $this->setUpdatedAt(new \DateTime('now'));
         }
     }
@@ -213,7 +214,8 @@ class Post
 
     public function addPostComment(PostComment $postComment): self
     {
-        if (!$this->postComments->contains($postComment)) {
+        if (!$this->postComments->contains($postComment))
+        {
             $this->postComments[] = $postComment;
             $postComment->setPost($this);
         }
@@ -223,9 +225,11 @@ class Post
 
     public function removePostComment(PostComment $postComment): self
     {
-        if ($this->postComments->removeElement($postComment)) {
+        if ($this->postComments->removeElement($postComment))
+        {
             // set the owning side to null (unless already changed)
-            if ($postComment->getPost() === $this) {
+            if ($postComment->getPost() === $this)
+            {
                 $postComment->setPost(null);
             }
         }
