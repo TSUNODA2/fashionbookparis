@@ -43,7 +43,7 @@
                   path(
                     'app_post_show',
                     {
-                      id: post.id
+                      post_id: post.id
                     }
                   )
                   }}">
@@ -67,6 +67,11 @@
                 </form>
               </li>
             </ul>
+          </div>
+          <hr />
+          <div class="post-comment-section">
+            {{ form_start(commentForm) }}
+            {{ form_end(commentForm) }}
           </div>
         </article>
         <br />

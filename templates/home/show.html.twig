@@ -7,10 +7,12 @@
 {% block content %}
   <article class="post-show">
     <div class="post-author">
-      <span><b>jane doe</b></span>
+      <span>
+        <b>{{ [post.author.name, post.author.surname]|join(' ')|title }}</b>
+      </span>
       <span>
         <button>Share</button>
-        <span>count like</span>
+        <span>0</span>
         <i>heart</i>
         <button>like</button>
       </span>

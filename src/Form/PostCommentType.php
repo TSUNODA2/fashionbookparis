@@ -6,17 +6,20 @@ use App\Entity\PostComment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class PostCommentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content')
-            ->add('createdAt')
-            ->add('author')
-            ->add('post')
-        ;
+            ->add('content', TextareaType::class, [
+                'label' => false,
+                'attr' => [
+                    'class' => 'comment-form-content',
+                    'placeholder' => 'Commentez et faites Entrée',
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

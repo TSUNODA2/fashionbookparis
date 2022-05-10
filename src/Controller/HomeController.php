@@ -4,23 +4,21 @@ namespace App\Controller;
 
 use App\Repository\PostRepository;
 use App\Entity\Post;
+use App\Entity\PostComment;
+use App\Form\PostCommentType;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    /**
-     * @var PostRepository
-     */
-    private $postRepo;
 
-    /**
-     * @var ObjectManager
-     */
-    private $entityManager;
+    private PostRepository $postRepo;
+
+    private ObjectManager $entityManager;
 
     public function __construct(ManagerRegistry $doctrine)
     {
@@ -32,20 +30,18 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         $posts = $this->postRepo->findBy(['visible' => true], ['createdAt' => 'DESC']);
-        return $this->render('home/index.html.twig', [
-            'posts' => $posts
+        $comment = new PostComment();
+        $commentForm = $this->createForm(PostCommentType::class, $comment);
+        return $this->renderForm('home/index.html.twig', [
+            'posts' => $posts,
+            'commentForm' => $commentForm
         ]);
     }
 
-    /**
-     * @Route("/show/{id}",name="app_post_show",requirements={"id"="\d+"})
-     *
-     * @param integer $id
-     * @return Response
-     */
-    public function show(int $id): Response
+    #[Route('/show/{post_id}', name: 'app_post_show')]
+    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
+    public function show(Post $post): Response
     {
-        $post = $this->postRepo->find($id);
         return $this->render('home/show.html.twig', [
             'post' => $post
         ]);
