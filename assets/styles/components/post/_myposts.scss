@@ -1,0 +1,65 @@
+.mypost-section{
+    width:min(100%,768px);
+
+}
+
+.mypost{
+    background-color: white;
+    display:flex;
+    justify-content: space-between;
+    padding:10px;
+    column-gap: 50px;
+}
+
+.mypost-image{
+    width:200px;
+    height:200px;
+    object-fit: cover;
+    border-radius:10px;
+}
+
+.mypost-content{
+    display:flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+
+.mypost-links{
+    display:flex;
+    justify-content: space-between;
+}
+
+.mypost-link{
+    color:white;
+    padding:5px 25px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin:5px;
+}
+
+.modify{
+    background-color: #424242;
+}
+
+.delete{
+    background-color: #a30000;
+}
+
+.mypost-newpost{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:200px;
+    margin-bottom:20px;
+}
+
+.mypost-newpost-link{
+    color:#00667c;
+    font-size: 18px;
+}
+
+.mypost,.mypost-newpost{
+    border:1px solid #b5b5b5;
+    border-radius: 5px;
+}

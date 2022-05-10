@@ -1,11 +1,60 @@
 {% extends 'layout/site.html.twig' %}
 
 {% block title %}
-  Mes publications liste
+  FashionBook|Mes publications
 {% endblock %}
 
 {% block content %}
-  <h1>
-    Publication liste user
-  </h1>
+  <section class="mypost-section">
+    {% for post in posts %}
+      <article class="mypost">
+        <img class="mypost-image"
+          src="{{ vich_uploader_asset(post) }}"
+          alt="{{ post.title }}" />
+        <div class="mypost-content">
+          <h2>
+            {{ post.title }}
+          </h2>
+          <p>
+            {{ post.description|u.truncate(200, '...') }}
+          </p>
+          <ul class="mypost-links">
+            <li><i>le {{ post.createdAt|date }}</i></li>
+            <li>
+              <a class="mypost-link modify"
+                href="{{
+                path(
+                  'app_edit_publication',
+                  {
+                    post_id: post.id
+                  }
+                )
+                }}">
+                Modifier
+              </a>
+              <a class="mypost-link delete"
+                href="{{
+                path(
+                  'app_delete_publication',
+                  {
+                    post_id: post.id
+                  }
+                )
+                }}">
+                Supprimer
+              </a>
+            </li>
+          </ul>
+        </div>
+      </article>
+      <br />
+      <hr />
+      <br />
+    {% endfor %}
+    <div class="mypost-newpost">
+      <a class="mypost-newpost-link" href="{{ path('app_new_publication') }}">
+        Créer un article +
+      </a>
+    </div>
+  </section>
 {% endblock %}

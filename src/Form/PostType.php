@@ -28,10 +28,12 @@ class PostType extends AbstractType
                 ]
             ])
             ->add('imageFile', VichImageType::class, [
-                'label' => 'Une image'
+                'label' => 'Une image',
+                'required' => false
             ])
             ->add('urlVideo', UrlType::class, [
-                'label' => 'Lien vers la vidéo'
+                'label' => 'Lien vers la vidéo',
+                'required' => false
             ])
             ->add('visible', CheckboxType::class, [
                 'label' => 'Visible'

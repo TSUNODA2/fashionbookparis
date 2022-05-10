@@ -38,6 +38,8 @@
 
 .new-publication-textarea{
     height:10rem;
+    font-size: 18px;
+    border-radius:10px;
 }
 
 .new-publication-submit{
@@ -46,4 +48,10 @@
     border-radius:30px;
     padding:5px 10px;
     /*width:80px;*/
+}
+
+.vich-image img{
+    width:200px;
+    height:200px;
+    object-fit: cover;
 }
