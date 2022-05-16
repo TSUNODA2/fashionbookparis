@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\PostComment;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -17,7 +18,13 @@ class PostCommentType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'class' => 'comment-form-content',
-                    'placeholder' => 'Commentez et faites Entrée',
+                    'placeholder' => 'Commentez...',
+                ]
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Publier',
+                'attr' => [
+                    'class' => 'new-comment-submit'
                 ]
             ]);
     }

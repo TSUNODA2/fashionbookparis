@@ -68,6 +68,9 @@ class Post
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: PostComment::class, orphanRemoval: true)]
     private $postComments;
 
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: PostLike::class, orphanRemoval: true)]
+    private $likes;
+
     public function __construct()
     {
         $this->setVisible(true);
@@ -75,6 +78,7 @@ class Post
         $this->setUpdatedAt(new \DateTime());
         $this->setVerified(true);
         $this->postComments = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -235,5 +239,56 @@ class Post
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, PostLike>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(PostLike $like): self
+    {
+        if (!$this->likes->contains($like))
+        {
+            $this->likes[] = $like;
+            $like->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(PostLike $like): self
+    {
+        if ($this->likes->removeElement($like))
+        {
+            // set the owning side to null (unless already changed)
+            if ($like->getPost() === $this)
+            {
+                $like->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Permet de savoir si cet article est "liké" par un utilisateur
+     *
+     * @param User $user
+     * @return boolean
+     */
+    public function isLikedByUser(User $user): bool
+    {
+        foreach ($this->likes as $likes)
+        {
+            if ($likes->getUser() == $user)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

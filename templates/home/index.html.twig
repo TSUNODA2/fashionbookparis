@@ -53,18 +53,31 @@
             </ul>
             <ul class="post-social-links">
               <li><button>Partager</button></li>
-              <li>0</li>
+              <li class="post-like-count">{{ post.likes|length }}</li>
               <li>
                 <i>
-                  <img class="heart-icon"
-                    src="{{ asset('icons/post/icons8-heart-30.png') }}"
-                    alt="" />
+                  {% if app.user and post.isLikedByUser(app.user) %}
+                    <img class="heart-icon"
+                      src="{{ asset('icons/post/icons8-heart-30.png') }}"
+                      alt="" />
+                  {% else %}
+                    <img class="heart-icon"
+                      src="{{ asset('icons/post/icons8-heart-48.png') }}"
+                      alt="" />
+                  {% endif %}
                 </i>
               </li>
               <li>
-                <form>
-                  <input class="post-like" type="submit" value="j'aime" />
-                </form>
+                <a href="{{
+                  path(
+                    'post_like',
+                    {
+                      id: post.id
+                    }
+                  )
+                  }}">
+                  J'aime
+                </a>
               </li>
             </ul>
           </div>
@@ -72,6 +85,17 @@
           <div class="post-comment-section">
             {{ form_start(commentForm) }}
             {{ form_end(commentForm) }}
+            <hr />
+            <div class="list-comments">
+              {% for comment in post.postComments %}
+                <p>
+                  {{ comment.author.name }}
+                </p>
+                <p>
+                  {{ comment.content }}
+                </p>
+              {% endfor %}
+            </div>
           </div>
         </article>
         <br />
