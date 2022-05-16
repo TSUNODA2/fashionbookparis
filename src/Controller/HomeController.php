@@ -69,12 +69,9 @@ class HomeController extends AbstractController
             'post' => $post
         ]);
     }
-    /**
-     * @Route("/post/{id}/like",name="post_like",requirements={"id"="\d+"})
-     *
-     * @param Post $post
-     * @return Response
-     */
+
+    #[Route('/post/{post_id}/like', name: 'post_like', methods: ['POST'])]
+    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
     public function like(Post $post): Response
     {
         $user = $this->getUser();

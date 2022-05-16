@@ -53,30 +53,25 @@
             </ul>
             <ul class="post-social-links">
               <li><button>Partager</button></li>
-              <li class="post-like-count">{{ post.likes|length }}</li>
-              <li>
-                <i>
-                  {% if app.user and post.isLikedByUser(app.user) %}
-                    <img class="heart-icon"
-                      src="{{ asset('icons/post/icons8-heart-30.png') }}"
-                      alt="" />
-                  {% else %}
-                    <img class="heart-icon"
-                      src="{{ asset('icons/post/icons8-heart-48.png') }}"
-                      alt="" />
-                  {% endif %}
-                </i>
-              </li>
-              <li>
-                <a href="{{
+              <li class="like-infos">
+                <a class="js-like"
+                  href="{{
                   path(
                     'post_like',
                     {
-                      id: post.id
+                      post_id: post.id
                     }
                   )
                   }}">
-                  J'aime
+                  <span class="post-like-count">{{ post.likes|length }}</span>
+
+                  {% if app.user and post.isLikedByUser(app.user) %}
+                    <i class="heart-symbol">&#128420</i>
+                    <span class="like-label">Je n'aime plus</span>
+                  {% else %}
+                    <i class="heart-symbol">&#9825</i>
+                    <span class="like-label">J'aime</span>
+                  {% endif %}
                 </a>
               </li>
             </ul>
@@ -105,4 +100,8 @@
   <section class="ads">
     Les articles
   </section>
+{% endblock %}
+{% block javascripts %}
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  {{ encore_entry_script_tags('likes') }}
 {% endblock %}
