@@ -1,0 +1,138 @@
+{% extends 'layout/marketbase.html.twig' %}
+
+{% block title %}
+    article : {{ product_slug }}
+{% endblock %}
+
+{% block contents %}
+    <div class="mainArticleMarket">
+
+        <br>
+
+            <div class="imgArticleMarket">
+
+                <img class"pictureArticleMarket" src="{{ category.getProductPicture }}" alt="#">
+
+            </div>
+
+            <div class="midArticleMarket">
+
+                <div class="leftMidArticleMarket">
+
+                    <br>
+                    <h1> {{ category.getProductNamet }} </h1>
+                    <br>
+                    <h4>Marseille</h4>
+                    <br>
+                    <h1> {{ category.getProductPrice }} €</h1>
+                    <br>
+                    <h5>A publié le 12/12/2012</h5>
+                
+                </div>
+
+                <div class="rightArticleMarket">
+
+                    <h2>Thomas@gmail.com</h2>
+                    <h2>06.00.00.00.00</h2>
+
+                </div>
+
+            </div>
+
+            <br>
+
+            <hr class="lineArticleMarket">
+
+            <br>
+
+            <div class="descriptionArticleMarket">
+
+                <h2>Description</h2>
+                <br>
+                <h4> {{ category.getProductDescription }} </h4>
+
+            </div>
+
+            <br>
+
+            <hr class="lineArticleMarket">
+
+            <br>
+
+            <div class="critereArticleMarket">
+
+                <h2>Critères</h2>
+
+                <br>
+
+                <div class="logoMidArticleMarket">
+
+                    <div class="etatArticleMarket">
+
+                        <div class="imgLogoArticleMarket">
+
+                        <img src="https://img.icons8.com/ios/50/000000/warranty.png"/>
+
+                        <br>
+
+                            <div class="etatDscArticleMarket">
+
+                                <h4>état</h4>
+                                <h3>Neuf</h3>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="etatArticleMarket">
+
+                        <div class="imgLogoArticleMarket">
+
+                        <img src="https://img.icons8.com/material-outlined/45/000000/sorting-answers.png"/>
+
+                        <br>
+
+                            <div class="etatDscArticleMarket">
+
+                                <h4>catégories</h4>
+                                <h3>machine a coudre</h3>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="etatArticleMarket">
+
+                        <div class="imgLogoArticleMarket">
+
+                        <img src="https://img.icons8.com/wired/50/000000/package.png"/>
+
+                        <br>
+
+                            <div class="etatDscArticleMarket">
+
+                                <h4>remise de l'article</h4>
+                                <h3>main propre</h3>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                
+                <br>
+
+                <hr class="lineArticleMarket">
+
+                <br>
+
+            </div>
+
+    </div>
+{% endblock %}

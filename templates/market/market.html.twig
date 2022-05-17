@@ -1,0 +1,32 @@
+{% extends 'layout/marketbase.html.twig' %}
+
+{% block title %}Market Place{% endblock %}
+
+{% block contents %}
+   
+      <div class="midboard">
+      <hr>
+        {% for p in products %}
+                
+                <div class="card">
+                    <div class="insideCard">
+                        <img src="{{ p.ProductPicture }}" class="pictureStyle" alt="">
+                        <div class="">
+
+                            <h4 class="">{{p.ProductNamet}} ({{p.ProductPrice / 100}} &euro;) </h4>
+
+                            <span class="">{{ p.ProductCategory.NameCategory}}</span>
+
+                            <p class="">{{ p.ProductDescription }}</p>
+
+                            <a href="#" class="productBtn">Détails</a>
+                        
+                        </div>
+                    </div>
+                </div>
+           
+        {% endfor %}
+    </div>
+    
+{% endblock %}
+ 
