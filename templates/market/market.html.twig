@@ -24,7 +24,7 @@
 
                             <h4 class="">{{pr.ProductNamet}} </h4>
 
-                            <h5 class="price">Prix: {{pr.ProductPrice / 100}} &euro;</h5>
+                            <h5 class="price">Prix :{{pr.ProductPrice / 100}} &euro;</h5>
                             
                             <p class="Description">{{ pr.ProductDescription }}</p>
                             <p>{{pr.CreatedAt|date("m/d/Y")}}</p>
@@ -33,16 +33,12 @@
                                 
                         </div>
                     </div>
-                </div> 
-                
-                
-            {% endfor %}  
-       
-         
+                </div>                  
+            {% endfor %}          
             
     {% for c in category %}  
                 <hr class="hrMid"> 
-             
+            
              <h2 class="CatStyle"> {{c.NameCategory}}</h2>  
 
         {% for p in product %} 
