@@ -12,3 +12,39 @@ import './styles/footer.css';
 
 // start the Stimulus application
 import './bootstrap';
+
+
+/*  Market Place   */
+
+window.onload = () => {
+
+    // get all elements
+    const elts = document.querySelectorAll(".accordionElement");
+
+    for(let elt of elts){
+        elt.addEventListener("click", function(){
+
+            // get active element
+            const active = document.querySelector(".accordion .active");
+
+            if(active != null){
+                // remove active class
+                active.classList.remove("active");
+                active.children[1].style.height = 0 ;
+            }
+            // active class on click element
+            this.classList.add("active");
+
+            // get height of ""
+            let section = this.children[1].querySelector("div");
+            // get height of section
+            let sectionHeight = section.offsetHeight + 20;
+
+            //height of .accordionContent
+            this.children[1].style.height = sectionHeight+"px";
+
+        });
+ 
+   }
+
+}

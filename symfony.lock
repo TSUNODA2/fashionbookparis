@@ -1,4 +1,7 @@
 {
+    "bluemmb/faker-picsum-photos-provider": {
+        "version": "v2.0"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -135,14 +138,20 @@
             "./config/routes/liip_imagine.yaml"
         ]
     },
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/romain3
     "liorchamla/faker-prices": {
         "version": "2.0.0"
     },
     "mbezhanov/faker-provider-collection": {
         "version": "2.0.1"
     },
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/romain3
     "monolog/monolog": {
         "version": "2.4.0"
     },

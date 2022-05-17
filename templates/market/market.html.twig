@@ -4,29 +4,68 @@
 
 {% block contents %}
    
-      <div class="midboard">
-      <hr>
-        {% for p in products %}
-                
+    
+    <div class="midboard">
+       
+        <form action="">
+            <input  class="searchBar" type="search" name="q" placeholder="rechercher un produit...">
+         </form>
+
+   
+            <hr class="hrMid"> 
+
+            <h2 class="CatStyle">Produits récent</h2>  
+            {% for pr in product %} 
+                            
+                <div class="card">
+                    <div class="insideCard">
+                        <img src="{{ pr.ProductPicture }}" class="pictureStyle" alt="">
+                        <div class="TxtPlacement">
+
+                            <h4 class="">{{pr.ProductNamet}} </h4>
+
+                            <h5 class="price">Prix :{{pr.ProductPrice / 100}} &euro;</h5>
+                            
+                            <p class="Description">{{ pr.ProductDescription }}</p>
+                            <p>{{pr.CreatedAt|date("m/d/Y")}}</p>
+                            <a href="#" class="productBtn">Détails</a>
+                           
+                                
+                        </div>
+                    </div>
+                </div>                  
+            {% endfor %}          
+            
+    {% for c in category %}  
+                <hr class="hrMid"> 
+            
+             <h2 class="CatStyle"> {{c.NameCategory}}</h2>  
+
+        {% for p in product %} 
+                            
                 <div class="card">
                     <div class="insideCard">
                         <img src="{{ p.ProductPicture }}" class="pictureStyle" alt="">
-                        <div class="">
+                        <div class="TxtPlacement">
 
-                            <h4 class="">{{p.ProductNamet}} ({{p.ProductPrice / 100}} &euro;) </h4>
+                            <h4 class="">{{p.ProductNamet}} </h4>
 
-                            <span class="">{{ p.ProductCategory.NameCategory}}</span>
-
-                            <p class="">{{ p.ProductDescription }}</p>
+                            <h5 class="price">Prix: {{p.ProductPrice / 100}} &euro;</h5>
+                            
+                            <p class="Description">{{ p.ProductDescription }}</p>
+                            <p>{{p.CreatedAt|date("m/d/Y")}}</p>
 
                             <a href="#" class="productBtn">Détails</a>
-                        
+                                
                         </div>
                     </div>
-                </div>
-           
-        {% endfor %}
+                </div> 
+                
+                
+        {% endfor %}  
+
+    {% endfor %}      
+        
     </div>
     
 {% endblock %}
- 

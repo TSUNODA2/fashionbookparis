@@ -1,0 +1,35 @@
+{% extends 'layout/marketbase.html.twig'%}
+
+{% block title %}
+    {{category.NameCategory}}
+{% endblock %}
+
+{% block contents %}
+
+<div class="midboard">
+
+    <h2 class="CatStyle">Catégorie :  {{category.NameCategory}} </h2>
+
+    {% for product in category.products %}
+        <hr class="hrMid">          
+                <div class="card">
+                    <div class="insideCard">
+                        <img src="{{ product.ProductPicture }}" class="pictureStyle" alt="">
+                        <div class="TxtPlacement">
+
+                            <h4 class="">{{product.ProductNamet}} </h4>
+
+                            <h5 class="price">Prix: {{product.ProductPrice / 100}} &euro;</h5>
+                            
+
+                            <p class="Description">{{ product.ProductDescription }}</p>
+
+                            <a href="#" class="productBtn">Détails</a>
+                                
+                        </div>
+                    </div>
+                </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
