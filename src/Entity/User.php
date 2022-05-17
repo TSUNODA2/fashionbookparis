@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -44,11 +46,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255)]
     private $category;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ArticleFb::class)]
+    private $articleFbs;
+
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Messages::class, orphanRemoval: true)]
+    private $sent;
+
+    #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: Messages::class, orphanRemoval: true)]
+    private $received;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime('now'));
         $this->setVerified(false);
         $this->setPartnership(false);
+        $this->articleFbs = new ArrayCollection();
+        $this->sent = new ArrayCollection();
+        $this->received = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -189,6 +203,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCategory(string $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ArticleFb>
+     */
+    public function getArticleFbs(): Collection
+    {
+        return $this->articleFbs;
+    }
+
+    public function addArticleFb(ArticleFb $articleFb): self
+    {
+        if (!$this->articleFbs->contains($articleFb)) {
+            $this->articleFbs[] = $articleFb;
+            $articleFb->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleFb(ArticleFb $articleFb): self
+    {
+        if ($this->articleFbs->removeElement($articleFb)) {
+            // set the owning side to null (unless already changed)
+            if ($articleFb->getUser() === $this) {
+                $articleFb->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Messages>
+     */
+    public function getSent(): Collection
+    {
+        return $this->sent;
+    }
+
+    public function addSent(Messages $sent): self
+    {
+        if (!$this->sent->contains($sent)) {
+            $this->sent[] = $sent;
+            $sent->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSent(Messages $sent): self
+    {
+        if ($this->sent->removeElement($sent)) {
+            // set the owning side to null (unless already changed)
+            if ($sent->getSender() === $this) {
+                $sent->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Messages>
+     */
+    public function getReceived(): Collection
+    {
+        return $this->received;
+    }
+
+    public function addReceived(Messages $received): self
+    {
+        if (!$this->received->contains($received)) {
+            $this->received[] = $received;
+            $received->setRecipient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReceived(Messages $received): self
+    {
+        if ($this->received->removeElement($received)) {
+            // set the owning side to null (unless already changed)
+            if ($received->getRecipient() === $this) {
+                $received->setRecipient(null);
+            }
+        }
 
         return $this;
     }

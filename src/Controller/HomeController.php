@@ -3,12 +3,23 @@
 namespace App\Controller;
 
 use App\Repository\PostRepository;
+use App\Repository\ArticleFbRepository;
 use App\Entity\Post;
+use App\Entity\ArticleFb;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 
 class HomeController extends AbstractController
 {
@@ -50,4 +61,5 @@ class HomeController extends AbstractController
             'post' => $post
         ]);
     }
+
 }
