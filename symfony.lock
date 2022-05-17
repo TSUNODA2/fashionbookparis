@@ -135,6 +135,15 @@
             "./config/routes/liip_imagine.yaml"
         ]
     },
+<<<<<<< HEAD
+=======
+    "liorchamla/faker-prices": {
+        "version": "2.0.0"
+    },
+    "mbezhanov/faker-provider-collection": {
+        "version": "2.0.1"
+    },
+>>>>>>> sami.L
     "monolog/monolog": {
         "version": "2.4.0"
     },
