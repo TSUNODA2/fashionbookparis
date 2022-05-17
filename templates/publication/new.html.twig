@@ -1,0 +1,18 @@
+{% extends 'layout/site.html.twig' %}
+
+{% block title %}
+  FashionBook|Nouvelle publication
+{% endblock %}
+
+{% block content %}
+  <section class="new-publication">
+    <h2>
+      Publier un article
+    </h2>
+    <h2>
+      {{ [app.user.name, app.user.surname]|join(' ')|title }}
+    </h2>
+    {{ form_start(formPost,{'attr':{'class':'new-publication-form'}}) }}
+    {{ form_end(formPost) }}
+  </section>
+{% endblock %}

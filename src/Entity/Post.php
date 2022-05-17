@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -30,7 +32,7 @@ class Post
     private string $description;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private string|null $image;
+    private string|null $image = null;
 
 
     #[Vich\UploadableField(mapping: "post_images", fileNameProperty: "image")]
@@ -39,7 +41,7 @@ class Post
         mimeTypesMessage: 'Ce fichier n\'est pas une image valide',
         sizeNotDetectedMessage: 'La taille de l\'image n\'a pas pu être détectée'
     )]
-    private File|null $imageFile;
+    private File|null $imageFile = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Assert\Url(
@@ -59,12 +61,24 @@ class Post
     #[ORM\Column(type: 'boolean')]
     private bool $verified;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'posts')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $author;
+
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: PostComment::class, orphanRemoval: true)]
+    private $postComments;
+
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: PostLike::class, orphanRemoval: true)]
+    private $likes;
+
     public function __construct()
     {
         $this->setVisible(true);
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
         $this->setVerified(true);
+        $this->postComments = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -110,7 +124,7 @@ class Post
 
     public function getImageFile(): ?File
     {
-        return $this->imageFile;
+        return $this->imageFile ?? null;
     }
 
     public function setImageFile(?File $imageFile = null): void
@@ -181,4 +195,100 @@ class Post
 
         return $this;
     }
-} 
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PostComment>
+     */
+    public function getPostComments(): Collection
+    {
+        return $this->postComments;
+    }
+
+    public function addPostComment(PostComment $postComment): self
+    {
+        if (!$this->postComments->contains($postComment))
+        {
+            $this->postComments[] = $postComment;
+            $postComment->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostComment(PostComment $postComment): self
+    {
+        if ($this->postComments->removeElement($postComment))
+        {
+            // set the owning side to null (unless already changed)
+            if ($postComment->getPost() === $this)
+            {
+                $postComment->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PostLike>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(PostLike $like): self
+    {
+        if (!$this->likes->contains($like))
+        {
+            $this->likes[] = $like;
+            $like->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(PostLike $like): self
+    {
+        if ($this->likes->removeElement($like))
+        {
+            // set the owning side to null (unless already changed)
+            if ($like->getPost() === $this)
+            {
+                $like->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Permet de savoir si cet article est "liké" par un utilisateur
+     *
+     * @param User $user
+     * @return boolean
+     */
+    public function isLikedByUser(User $user): bool
+    {
+        foreach ($this->likes as $likes)
+        {
+            if ($likes->getUser() == $user)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+}

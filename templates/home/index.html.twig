@@ -4,31 +4,28 @@
   Fashionbook Paris|Page d'accueil
 {% endblock %}
 
-{% block stylesheets %}
-  {{ parent() }}
-  {{ encore_entry_link_tags('homepage') }}
-{% endblock %}
-
-{% block javascripts %}
-  {{ parent() }}
-  {{ encore_entry_script_tags('homepage') }}
-{% endblock %}
-
 {% block content %}
   <section class="announces"></section>
   <section class="sidebar">
     sidebar
   </section>
   <section class="posts">
-    <div class="new-post">
-      <span class="new-post-sign">+</span>
-      <span><a class="new-post-link" href="#">Publier un article</a></span>
-    </div>
+    {% if is_granted('ROLE_USER') %}
+      <div class="new-post">
+        <span class="new-post-sign">+</span>
+        <span>
+          <a class="new-post-link" href="{{ path('app_new_publication') }}">
+            Publier un article
+          </a>
+        </span>
+      </div>
+    {% endif %}
     <div class="list-posts">
       {% for post in posts %}
         <article class="post">
           <p class="post-author">
-            <b>jane Doe</b> <span>a publié le {{ post.createdAt|date }}</span>
+            <b>{{ [post.author.name, post.author.surname]|join(' ')|title }}</b>
+            <span>a publié le {{ post.createdAt|date }}</span>
           </p>
           <hr />
           <img src="{{ vich_uploader_asset(post) }}" alt="{{ post.title }}" />
@@ -38,27 +35,63 @@
           <p class="post-description">
             {{ post.description|u.truncate(200, '...') }}
           </p>
-          <p class="post-link">
-            <span>
-              <a class="post-show-link"
-                href="{{
-                path(
-                  'app_post_show',
-                  {
-                    id: post.id
-                  }
-                )
-                }}">
-                Voir +
-              </a>
-            </span>
-            <span>
-              <button>Share</button>
-              <span>count like</span>
-              <i>heart</i>
-              <button>like</button>
-            </span>
-          </p>
+          <div class="post-link">
+            <ul>
+              <li>
+                <a class="post-show-link"
+                  href="{{
+                  path(
+                    'app_post_show',
+                    {
+                      post_id: post.id
+                    }
+                  )
+                  }}">
+                  Voir +
+                </a>
+              </li>
+            </ul>
+            <ul class="post-social-links">
+              <li><button>Partager</button></li>
+              <li class="like-infos">
+                <a class="js-like"
+                  href="{{
+                  path(
+                    'post_like',
+                    {
+                      post_id: post.id
+                    }
+                  )
+                  }}">
+                  <span class="post-like-count">{{ post.likes|length }}</span>
+
+                  {% if app.user and post.isLikedByUser(app.user) %}
+                    <i class="heart-symbol">&#128420</i>
+                    <span class="like-label">Je n'aime plus</span>
+                  {% else %}
+                    <i class="heart-symbol">&#9825</i>
+                    <span class="like-label">J'aime</span>
+                  {% endif %}
+                </a>
+              </li>
+            </ul>
+          </div>
+          <hr />
+          <div class="post-comment-section">
+            {{ form_start(commentForm) }}
+            {{ form_end(commentForm) }}
+            <hr />
+            <div class="list-comments">
+              {% for comment in post.postComments %}
+                <p>
+                  {{ comment.author.name }}
+                </p>
+                <p>
+                  {{ comment.content }}
+                </p>
+              {% endfor %}
+            </div>
+          </div>
         </article>
         <br />
       {% endfor %}
@@ -67,4 +100,8 @@
   <section class="ads">
     Les articles
   </section>
+{% endblock %}
+{% block javascripts %}
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  {{ encore_entry_script_tags('likes') }}
 {% endblock %}

@@ -4,28 +4,20 @@
   FashionBookParis | Publication show
 {% endblock %}
 
-{% block stylesheets %}
-  {{ parent() }}
-  {{ encore_entry_link_tags('post_show') }}
-{% endblock %}
-
-{% block javascripts %}
-  {{ parent() }}
-  {{ encore_entry_script_tags('post_show') }}
-{% endblock %}
-
 {% block content %}
-  <article>
+  <article class="post-show">
     <div class="post-author">
-      <span><b>jane doe</b></span>
+      <span>
+        <b>{{ [post.author.name, post.author.surname]|join(' ')|title }}</b>
+      </span>
       <span>
         <button>Share</button>
-        <span>count like</span>
+        <span>0</span>
         <i>heart</i>
         <button>like</button>
       </span>
     </div>
-    <img src="{{ vich_uploader_asset(post) }}" alt="" />
+    <img src="{{ vich_uploader_asset(post) }}" alt="{{ post.title }}" />
     <h1>
       {{ post.title }}
     </h1>

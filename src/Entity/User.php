@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Cette adresse mail est déjà utilisée!')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -54,15 +54,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: Messages::class, orphanRemoval: true)]
     private $received;
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Post::class, orphanRemoval: true)]
+    private $posts;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: PostComment::class, orphanRemoval: true)]
+    private $postComments;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: PostLike::class, orphanRemoval: true)]
+    private $likes;
 
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime('now'));
-        $this->setVerified(false);
+        $this->setVerified(true);
         $this->setPartnership(false);
         $this->articleFbs = new ArrayCollection();
         $this->sent = new ArrayCollection();
         $this->received = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->postComments = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -221,6 +232,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->articleFbs[] = $articleFb;
             $articleFb->setUser($this);
         }
+        return $this;
+    }
+    
+     /** @return Collection<int, Post>
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): self
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts[] = $post;
+            $post->setAuthor($this);
+        }
 
         return $this;
     }
@@ -231,6 +258,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($articleFb->getUser() === $this) {
                 $articleFb->setUser(null);
+            }
+        }
+        return $this;
+    }
+    public function removePost(Post $post): self
+    {
+        if ($this->posts->removeElement($post)) {
+            // set the owning side to null (unless already changed)
+            if ($post->getAuthor() === $this) {
+                $post->setAuthor(null);
             }
         }
 
@@ -251,6 +288,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->sent[] = $sent;
             $sent->setSender($this);
         }
+        return $this;
+    }
+
+     /** @return Collection<int, PostComment>
+     */
+    public function getPostComments(): Collection
+    {
+        return $this->postComments;
+    }
+
+    public function addPostComment(PostComment $postComment): self
+    {
+        if (!$this->postComments->contains($postComment)) {
+            $this->postComments[] = $postComment;
+            $postComment->setAuthor($this);
+        }
 
         return $this;
     }
@@ -261,6 +314,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($sent->getSender() === $this) {
                 $sent->setSender(null);
+            }
+        }
+        return $this;
+    }
+    
+    public function removePostComment(PostComment $postComment): self
+    {
+        if ($this->postComments->removeElement($postComment)) {
+            // set the owning side to null (unless already changed)
+            if ($postComment->getAuthor() === $this) {
+                $postComment->setAuthor(null);
             }
         }
 
@@ -281,6 +345,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->received[] = $received;
             $received->setRecipient($this);
         }
+        return $this;
+    }
+
+     /** @return Collection<int, PostLike>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(PostLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setUser($this);
+        }
 
         return $this;
     }
@@ -291,6 +371,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($received->getRecipient() === $this) {
                 $received->setRecipient(null);
+            }
+            
+        }
+        return $this;
+    }
+
+    public function removeLike(PostLike $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getUser() === $this) {
+                $like->setUser(null);
             }
         }
 

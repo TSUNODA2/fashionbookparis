@@ -2,51 +2,55 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Post;
+use App\Entity\User;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Faker;
 use App\Entity\ProductMarket;
 use App\Entity\ProductCategory;
 use Bluemmb\Faker\PicsumPhotosProvider;
-use Doctrine\Persistence\ObjectManager;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
 {
     protected $slugger;
 
-    public function __construct(SluggerInterface $slugger)
+    private UserPasswordHasherInterface $userPasswordHasher;
+
+    public function __construct(SluggerInterface $slugger, UserPasswordHasherInterface $userPasswordHasher)
     {
         $this->slugger = $slugger;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
     public function load(ObjectManager $manager): void
     {
+        $author = new User();
         $faker = Faker\Factory::create('fr_FR');
-        $faker->addProvider(new \Liior\Faker\Prices($faker));
-        $faker->addProvider(new \Bezhanov\Faker\Provider\Commerce($faker));
-        $faker->addProvider(new \Bluemmb\Faker\PicsumPhotosProvider($faker));
+        $author->setEmail('abc@def.com');
+        $author->setName('hachim');
+        $author->setSurname('youssoufa');
+        $author->setCategory('Particulier');
+        $author->setVerified(true);
+        $author->setPartnership(false);
+        $author->setRoles(['ROLE_ADMIN']);
+        $plaintextPassword = 'test123';
 
-        for ($c = 0; $c < 5; $c++) {
+        $hashedPassword = $this->userPasswordHasher->hashPassword($author, $plaintextPassword);
+        $author->setPassword($hashedPassword);
+        $manager->persist($author);
+        $images = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg'];
+        for ($i = 0; $i <= 16; $i++) {
+            $image = $images[array_rand($images)];
 
-            $category = new ProductCategory;
-            $category->setNameCategory($faker->department)
-                ->setSlugCategory(strtolower($this->slugger->slug($category->getNameCategory())));
-
-            $manager->persist($category);
-
-            for ($p = 0; $p <= 15; $p++) {
-
-                $product = new ProductMarket;
-                $product->setProductNamet($faker->productName)
-                    ->setProductDescription($faker->paragraph())
-                    ->setProductPrice($faker->price(4000, 20000))
-                    ->setProductPicture($faker->imageUrl(100, 100))
-                    ->setProductSlug(strtolower($this->slugger->slug($product->getProductNamet())))
-                    ->setProductCategory($category)
-                    ->setCreatedAt(new \DateTimeImmutable());
-
-                $manager->persist($product);
-            }
+            $post = new Post();
+            $post->setTitle($faker->sentence());
+            $post->setDescription($faker->paragraphs(5, true));
+            $post->setImage($image);
+            $post->setAuthor($author);
+            $manager->persist($post);
         }
 
         $manager->flush();

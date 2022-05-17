@@ -4,16 +4,6 @@
   FashionbookParis|Connexion
 {% endblock %}
 
-{% block stylesheets %}
-  {{ parent() }}
-  {{ encore_entry_link_tags('login') }}
-{% endblock %}
-
-{% block javascripts %}
-  {{ parent() }}
-  {{ encore_entry_script_tags('login') }}
-{% endblock %}
-
 {% block content %}
   <section class="connexion">
     {% if error %}
@@ -35,8 +25,10 @@
       <input type="hidden"
         name="_csrf_token"
         value="{{ csrf_token('authenticate') }}" />
-      <input type="submit" value="Se connecter" />
-      <a href="#">Mot de passe oublié?</a>
+      <input class="login-submit" type="submit" value="Se connecter" />
+      <a href="{{ path('app_forgot_password_request') }}">
+        Mot de passe oublié?
+      </a>
       <p>
         Vous n'avez pas encore de compte? <a href="{{ path('app_register') }}">Je
           m'inscris</a>

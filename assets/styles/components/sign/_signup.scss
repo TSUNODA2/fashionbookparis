@@ -1,0 +1,59 @@
+.inscription {
+  width: min(100%, 500px);
+  font-size: 20px;
+  color: #5e5e5e;
+  margin: 50px;
+}
+
+.inscription form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 10px;
+}
+
+[name="registration_form"] div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.inscription input,
+[name="registration_form\[category\]"] {
+  font-size: 20px;
+  border-radius: 10px;
+  width: min(100%, 420px);
+  background-color: #f8f8f8;
+  color: #5e5e5e;
+  border: 2px solid #e2dede;
+  padding: 15px;
+}
+
+option {
+  color: black;
+  background-color: #c9c9c9;
+}
+
+input[name="registration_form\[agreeTerms\]"] {
+  width: 21px;
+  height: 21px;
+  border: 1px solid #9d9d9d;
+  background-color: white;
+  border-radius: 5px;
+}
+
+label[for="registration_form_agreeTerms"] {
+  font-size: 14px;
+  color: black;
+}
+
+.inscription-submit {
+  width: min(100%, 340px);
+  background-color: #186ab6;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 20px;
+  border-radius: 10px;
+}

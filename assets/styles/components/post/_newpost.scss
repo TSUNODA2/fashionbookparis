@@ -1,0 +1,57 @@
+.new-publication{
+    width:min(100%,768px);
+    display:flex;
+    flex-direction: column;
+    /*align-items: center;*/
+    background-color:white;
+    font-size:18px;
+    row-gap:15px;
+    padding:10px;
+}
+
+.new-publication-form{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap:20px;
+    width:100%;
+    padding:10px;
+}
+
+.new-publication-form>div{
+    width:100%;
+
+    display:flex;
+    flex-direction: column;
+}
+
+.new-publication-form>div:nth-of-type(5){
+    flex-direction: row;
+    justify-content: flex-start;
+    column-gap: 10px;
+}
+
+.new-publication-form>div:nth-of-type(6){
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.new-publication-textarea{
+    height:10rem;
+    font-size: 18px;
+    border-radius:10px;
+}
+
+.new-publication-submit{
+    background-color:#048437;
+    color:white;
+    border-radius:30px;
+    padding:5px 10px;
+    /*width:80px;*/
+}
+
+.vich-image img{
+    width:200px;
+    height:200px;
+    object-fit: cover;
+}

@@ -7,13 +7,19 @@ use App\Repository\ArticleFbRepository;
 use App\Entity\Post;
 use App\Entity\ArticleFb;
 use App\Entity\User;
+use App\Entity\PostComment;
+use App\Entity\PostLike;
+use App\Form\PostCommentType;
+use App\Repository\PostCommentRepository;
+use App\Repository\PostLikeRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -23,43 +29,87 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class HomeController extends AbstractController
 {
-    /**
-     * @var PostRepository
-     */
-    private $postRepo;
 
-    /**
-     * @var ObjectManager
-     */
-    private $entityManager;
+    private PostRepository $postRepo;
+
+    private PostCommentRepository $commentRepo;
+
+    private PostLikeRepository $likeRepo;
+
+    private ObjectManager $entityManager;
 
     public function __construct(ManagerRegistry $doctrine)
     {
         $this->postRepo = $doctrine->getRepository(Post::class);
+        $this->commentRepo = $doctrine->getRepository(PostComment::class);
+        $this->likeRepo = $doctrine->getRepository(PostLike::class);
         $this->entityManager = $doctrine->getManager();
     }
 
     #[Route('/', name: 'app_home')]
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $posts = $this->postRepo->findBy(['visible' => true], ['createdAt' => 'DESC']);
-        return $this->render('home/index.html.twig', [
-            'posts' => $posts
-        ]);
+        $comment = new PostComment();
+        $commentForm = $this->createForm(PostCommentType::class, $comment);
+        if ($this->getUser())
+        {
+            $user = $this->getUser();
+
+            $options = [
+                'posts' => $posts,
+                'commentForm' => $commentForm
+            ];
+        }
+        else
+        {
+            $options = [
+                'posts' => $posts,
+                'commentForm' => $commentForm
+            ];
+        }
+        return $this->renderForm('home/index.html.twig', $options);
     }
 
-    /**
-     * @Route("/show/{id}",name="app_post_show",requirements={"id"="\d+"})
-     *
-     * @param integer $id
-     * @return Response
-     */
-    public function show(int $id): Response
+    #[Route('/show/{post_id}', name: 'app_post_show')]
+    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
+    public function show(Post $post): Response
     {
-        $post = $this->postRepo->find($id);
         return $this->render('home/show.html.twig', [
             'post' => $post
         ]);
     }
 
+    #[Route('/post/{post_id}/like', name: 'post_like', methods: ['POST'])]
+    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
+    public function like(Post $post): Response
+    {
+        $user = $this->getUser();
+        if (!$user)
+        {
+            return $this->json(['code' => 403, 'message' => 'Unauthorized'], 403);
+        }
+        if ($post->isLikedByUser($user))
+        {
+            $like = $this->likeRepo->findOneBy(['post' => $post, 'user' => $user]);
+            $this->entityManager->remove($like);
+            $this->entityManager->flush();
+            return $this->json([
+                'code' => 200,
+                'message' => 'Like supprimé',
+                'likes' => $this->likeRepo->count(['post' => $post])
+            ], 200);
+        }
+        $like = new PostLike();
+        $like->setPost($post);
+        $like->setUser($user);
+        $this->entityManager->persist($like);
+        $this->entityManager->flush();
+        return $this->json([
+            'code' => 200,
+            'message' => 'Like ajouté',
+            'likes' => $this->likeRepo->count(['post' => $post])
+        ], 200);
+        //return $this->json(['code' => 200, 'message' => 'ça marche bien'], 200);
+    }
 }

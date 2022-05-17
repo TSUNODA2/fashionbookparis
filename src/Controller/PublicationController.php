@@ -22,6 +22,9 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Form\SendType;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface; 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Form\PostType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 
 class PublicationController extends AbstractController
@@ -29,7 +32,7 @@ class PublicationController extends AbstractController
     #[Route('/', name: 'app_publication')]
     public function index(): Response
     {
-        return $this->render('publication/index.html.twig', [
+        return $this->render('publication/index2.html.twig', [
             'controller_name' => 'PublicationController',
         ]);
     }
@@ -91,16 +94,14 @@ class PublicationController extends AbstractController
 
             $newFilename = $safeFilename.'-'.uniqid().'.'.$photoFiles->guessExtension();
 
-            try{
+            {
 
                 $photoFiles->move(
                     $this->getParameter('images_directory'),
                     $newFilename
                 );
 
-            }catch (FileException $e) {
             
-            }
 
             $articleFb->setPhoto($newFilename);
            }
@@ -122,6 +123,7 @@ class PublicationController extends AbstractController
             'formArticleFb' => $form->createView()
         ]);
     }
+}
 
 
 
@@ -151,10 +153,10 @@ class PublicationController extends AbstractController
             $email = (new TemplatedEmail())
             ->from($sender->get('emailSend')->getData())
             ->to($contact->get('email')->getData())
-            ->sujet('Cette annonce pourrait vous plaire')
+            ->subject('Cette annonce pourrait vous plaire')
             ->htmlTemplate('emails/contact_annonce.html.twig')
             ->context([
-                'annonceFb'=>$annonceFb,
+                'articleFb'=>$articleFb,
                 'e_mail'=>$contact->get('email')->getData(),
                 'message'=>$contact->get('message')->getData()
             ]);
@@ -171,4 +173,75 @@ class PublicationController extends AbstractController
             'formSend' => $formSend->createView() 
         ]);
     }
+    private ObjectManager $entityManager;
+    private PostRepository $postRepo;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->entityManager = $doctrine->getManager();
+        $this->postRepo = new PostRepository($doctrine);
+    }
+
+    #[Route('/my-publications', name: 'app_my_publications')]
+    public function index1(): Response
+    {
+        $user = $this->getUser();
+        $myPosts = $this->postRepo->findBy(['author' => $user], ['createdAt' => 'DESC']);
+        return $this->render('publication/index.html.twig', [
+            'controller_name' => 'PublicationController',
+            'posts' => $myPosts
+        ]);
+    }
+
+    #[Route('/new-publication', name: 'app_new_publication')]
+    #[Route('/modify-publication/{post_id}', name: 'app_edit_publication')]
+    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
+    public function new(Request $request, Post $post = null): Response
+    {
+        if ($post == null)
+        {
+            $post =  new Post();
+            $user = $this->getUser();
+            $post->setAuthor($user);
+        }
+        $form = $this->createForm(PostType::class, $post);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $this->entityManager->persist($post);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_my_publications');
+        }
+        return $this->renderForm('publication/new.html.twig', [
+            'formPost' => $form
+        ]);
+    }
+
+    #[Route('/delete-publication/{post_id}', name: 'app_delete_publication')]
+    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
+    public function delete(Post $post = null): Response
+    {
+        $this->postRepo->remove($post);
+        return $this->redirectToRoute('app_my_publications');
+    }
 }
+
+// use App\Repository\PostRepository;
+// use Doctrine\Persistence\ManagerRegistry;
+// use Doctrine\Persistence\ObjectManager;
+// use App\Entity\Post;
+
+// use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+// use Symfony\Component\HttpFoundation\Request;
+// use Symfony\Component\HttpFoundation\Response;
+// use Symfony\Component\Routing\Annotation\Route;
+
+
+// #[IsGranted('ROLE_USER')]
+// class PublicationController extends AbstractController
+// {
+
+    
+// }
